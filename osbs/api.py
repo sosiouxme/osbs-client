@@ -169,6 +169,16 @@ class OSBS(object):
         return pod_list[0]
 
     @osbsapi
+    def list_build_configs(self, triggers=False):
+        """
+        List BuildConfigs
+
+        :param autorebuild: bool, select only BuildConfigs having triggers defined
+        :return: BuildConfigResponse list
+        """
+        return self.os.list_build_configs(triggers=triggers)
+
+    @osbsapi
     def get_build_request(self, build_type=None, inner_template=None,
                           outer_template=None, customize_conf=None):
         """

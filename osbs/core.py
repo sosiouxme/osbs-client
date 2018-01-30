@@ -15,6 +15,7 @@ import base64
 import logging
 from osbs.kerberos_ccache import kerberos_ccache_init
 from osbs.build.build_response import BuildResponse
+from osbs.build.build_config_response import BuildConfigResponse
 from osbs.constants import DEFAULT_NAMESPACE, BUILD_FINISHED_STATES, BUILD_RUNNING_STATES
 from osbs.constants import WATCH_MODIFIED, WATCH_DELETED, WATCH_ERROR
 from osbs.constants import (SERVICEACCOUNT_SECRET, SERVICEACCOUNT_TOKEN,
@@ -333,6 +334,26 @@ class Openshift(object):
                 (label_selectors, ))
 
         return items[0]
+
+    def list_build_configs(self, triggers=False):
+        """
+        List BuildConfigs
+
+        :param triggers: bool, select only BuildConfigs having triggers defined
+        :return: BuildConfigResponse iterator
+        """
+        url = self._build_url("buildconfigs/")
+        response = self._get(url)
+        check_response(response)
+
+        build_configs = []
+        for item in response.json()['items']:
+            bc = BuildConfigResponse(item)
+            if triggers and not bc.triggers:
+                continue
+            build_configs.append(bc)
+
+        return build_configs
 
     def create_build_config(self, build_config_json):
         """
