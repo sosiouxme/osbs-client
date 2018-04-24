@@ -52,6 +52,14 @@
       "name": "distribution_scope"
     }
   ],
+  "buildstep_plugins": [
+    {
+      "name": "docker_api"
+    },
+    {
+      "name": "imagebuilder"
+    }
+  ],
   "prepublish_plugins": [
     {
       "name": "squash"
