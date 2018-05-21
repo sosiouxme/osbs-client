@@ -86,7 +86,7 @@
     {
       "name": "compress",
       "args": {
-        "load_exported_image": true,
+        "load_exported_image": false,
         "method": "gzip"
       }
     },
